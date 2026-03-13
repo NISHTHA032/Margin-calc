@@ -94,8 +94,6 @@ canvas{
 
 <script>
 
-let chartInstance = null;
-
 function calculateMargin(){
 
 const cost = parseFloat(document.getElementById("cost").value);
@@ -123,15 +121,17 @@ backgroundColor:["#27ae60","#e74c3c"]
 }]
 };
 
-const ctx = document.getElementById("pieChart").getContext("2d");
+const ctx = document.getElementById("pieChart");
 
 
-// destroy previous chart
-if(chartInstance !== null){
-chartInstance.destroy();
+// destroy existing chart safely
+let existingChart = Chart.getChart(ctx);
+
+if(existingChart){
+existingChart.destroy();
 }
 
-chartInstance = new Chart(ctx,{
+new Chart(ctx,{
 type:"pie",
 data:data,
 options:{
